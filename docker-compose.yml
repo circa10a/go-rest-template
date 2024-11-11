@@ -1,0 +1,7 @@
+services:
+  go-rest-template:
+    container_name: go-rest-template
+    image: circa10a/go-rest-template
+    ports:
+      - 80:80
+      - 443:443

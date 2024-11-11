@@ -1,0 +1,10 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: go-rest-template
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: go-rest-template
