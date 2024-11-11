@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-rest-template
+spec:
+  selector:
+    matchLabels:
+      app: go-rest-template
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: go-rest-template
+    spec:
+      containers:
+      - name: go-rest-template
+        image: circa10a/go-rest-template
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,44 @@
+openapi: 3.1.0
+info:
+  title: Go REST Template
+  description: A template project for Go REST API's
+  version: 1.0.0
+servers:
+  - url: https://go-rest-template.example.com/v1
+
+externalDocs:
+  url: https://github.com/circa10a/go-rest-template
+  description: go-rest-template source code
+
+paths:
+  /health:
+    get:
+      summary: Get application health for readiness/liveness checks
+      responses:
+        '200':
+          description: Returns application status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          description: HTTP response code for convenience
+          type: integer
+        message:
+          description: A more detailed message about the error
+          type: string
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+      example:
+        status: ok

@@ -1,0 +1,8 @@
+---
+global:
+  scrape_interval:     20s
+  evaluation_interval: 15s
+scrape_configs:
+  - job_name: go-rest-template-metrics
+    static_configs:
+    - targets: ['go-rest-template:8080']
