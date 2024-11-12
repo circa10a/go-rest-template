@@ -60,10 +60,10 @@ Use [gonew](https://pkg.go.dev/golang.org/x/tools/cmd/gonew) to initialize a new
 $ go install golang.org/x/tools/cmd/gonew@latest
 
 # Init project
-$ gonew github.com/circa10a/go-rest-template some.domain/namespace/project
+$ gonew github.com/circa10a/go-rest-template github.com/namespace/project
 ```
 
-Finally, replace all of the existing references of the template repository with you're newly created one by running:
+Finally, replace all of the existing references of the template repository with your newly created one by running:
 
 ```console
 $ make template
@@ -154,7 +154,8 @@ $ make docker-compose
 
 The following services will then be accessible with a pre-configured dashboard:
 
-- [Grafana](https://grafana.com/) :http://localhost:3000
+- Go server: http://localhost:8080
+- [Grafana](https://grafana.com/): http://localhost:3000
 - [Prometheus](https://prometheus.io/): http://localhost:9090
 - [Loki](https://grafana.com/oss/loki/)
 - [Promtail](https://grafana.com/docs/loki/latest/send-data/promtail/)
