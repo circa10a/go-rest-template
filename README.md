@@ -2,6 +2,9 @@
 
 A project template for Go REST API's.
 
+![Build Status](https://github.com/circa10a/go-rest-template/workflows/deploy/badge.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/circa10a/go-rest-template)
+
 <img height="40%" width="40%" src="https://raw.githubusercontent.com/ashleymcnamara/gophers/refs/heads/master/CouchPotatoGopher.png" align="right"/>
 
 - [go-rest-template](#go-rest-template)
