@@ -51,6 +51,8 @@ The default GitHub actions that come with this project has 1 setup requirement.
 > This assumes your Docker Hub namespace matches your git repository namespace.
 > Example: github.com/mynamespace/myrepo will push to mynamespace/myrepo on Docker Hub
 
+1. Enable dependabot updates - Navigate to repository > Security > Code security > Grouped security updates > Enabled
+
 ### Initialize a new project
 
 Use [gonew](https://pkg.go.dev/golang.org/x/tools/cmd/gonew) to initialize a new project from this template:
