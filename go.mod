@@ -6,7 +6,7 @@ toolchain go1.24.1
 require (
 	github.com/caddyserver/certmagic v0.21.7
 	github.com/charmbracelet/log v0.4.1
-	github.com/prometheus/client_golang v1.21.0
+	github.com/prometheus/client_golang v1.21.1
 	github.com/slok/go-http-metrics v0.13.0
 	github.com/spf13/cobra v1.9.1
 )
