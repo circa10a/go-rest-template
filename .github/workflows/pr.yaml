@@ -58,6 +58,6 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
       - name: Run Gosec Security Scanner
-        uses: securego/gosec@v2.22.1
+        uses: securego/gosec@v2.22.2
         with:
           args: ./...
