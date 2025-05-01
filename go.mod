@@ -6,7 +6,7 @@ toolchain go1.24.1
 require (
 	github.com/caddyserver/certmagic v0.22.2
 	github.com/charmbracelet/log v0.4.1
-	github.com/prometheus/client_golang v1.21.1
+	github.com/prometheus/client_golang v1.22.0
 	github.com/slok/go-http-metrics v0.13.0
 	github.com/spf13/cobra v1.9.1
 )
@@ -20,7 +20,6 @@ require (
 	github.com/charmbracelet/x/ansi v0.4.5 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/klauspost/compress v1.17.11 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
 	github.com/libdns/libdns v0.2.3 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
@@ -46,5 +45,5 @@ require (
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
 	golang.org/x/tools v0.31.0 // indirect
-	google.golang.org/protobuf v1.36.1 // indirect
+	google.golang.org/protobuf v1.36.5 // indirect
 )
