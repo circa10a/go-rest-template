@@ -12,7 +12,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v8
       - uses: dominikh/staticcheck-action@v1
       - name: Ensure API docs are updated
         run: make sure-docs-are-updated
