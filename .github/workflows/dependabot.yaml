@@ -4,6 +4,7 @@ name: Dependabot auto-approve
 on: pull_request
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
