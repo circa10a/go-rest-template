@@ -4,6 +4,10 @@ name: test
 on:
   pull_request:
 
+# Allow dependabot to update
+permissions:
+  actions: write
+
 jobs:
   lint:
     runs-on: ubuntu-latest
