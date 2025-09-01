@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.24.1
 
 require (
-	github.com/caddyserver/certmagic v0.23.0
+	github.com/caddyserver/certmagic v0.24.0
 	github.com/charmbracelet/log v0.4.2
 	github.com/prometheus/client_golang v1.23.0
 	github.com/slok/go-http-metrics v0.13.0
@@ -25,7 +25,7 @@ require (
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
-	github.com/libdns/libdns v1.0.0-beta.1 // indirect
+	github.com/libdns/libdns v1.0.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
