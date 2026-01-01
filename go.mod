@@ -9,7 +9,7 @@ require (
 	github.com/charmbracelet/log v0.4.2
 	github.com/prometheus/client_golang v1.23.2
 	github.com/slok/go-http-metrics v0.13.0
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 )
 
 require (
