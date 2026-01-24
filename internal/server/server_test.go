@@ -15,79 +15,77 @@ func TestValidate(t *testing.T) {
 		expectErr bool
 	}{
 		{
-			// No log format set
-			server:    &Server{},
-			expectErr: true,
-		},
-		{
-			// No log level
-			server: &Server{
-				logformat: "text",
-				loglevel:  "info",
-			},
-			expectErr: true,
-		},
-		{
 			// Invalid log format
 			server: &Server{
-				logformat: "fake",
-				loglevel:  "info",
+				Config: Config{
+					LogFormat: "fake",
+				},
 			},
 			expectErr: true,
 		},
 		{
-			// Auto TLS and custom cert set
+			// Auto TLS and custom cert set (conflict)
 			server: &Server{
-				autoTLS: true,
-				tlsCert: "cert",
+				Config: Config{
+					AutoTLS: true,
+					TLSCert: "cert",
+				},
 			},
 			expectErr: true,
 		},
 		{
-			// Auto TLS and custom key set
+			// Auto TLS and custom key set (conflict)
 			server: &Server{
-				autoTLS: true,
-				tlsKey:  "key",
+				Config: Config{
+					AutoTLS: true,
+					TLSKey:  "key",
+				},
 			},
 			expectErr: true,
 		},
 		{
 			// Auto TLS and no domains
 			server: &Server{
-				autoTLS: true,
+				Config: Config{
+					AutoTLS: true,
+				},
 			},
 			expectErr: true,
 		},
 		{
 			// Cert set without key
 			server: &Server{
-				tlsCert: "cert",
+				Config: Config{
+					TLSCert: "cert",
+				},
 			},
 			expectErr: true,
 		},
 		{
 			// Key set without cert
 			server: &Server{
-				tlsKey: "key",
+				Config: Config{
+					TLSKey: "key",
+				},
 			},
 			expectErr: true,
 		},
 		{
 			// Valid AutoTLS config
 			server: &Server{
-				logformat: "text",
-				loglevel:  "info",
-				autoTLS:   true,
-				domains:   []string{"domain"},
+				Config: Config{
+					AutoTLS: true,
+					Domains: []string{"domain"},
+				},
 			},
 		},
 		{
 			// Valid custom cert/key config
 			server: &Server{
-				logformat: "text",
-				loglevel:  "info",
-				tlsCert:   "cert",
-				tlsKey:    "key",
+				Config: Config{
+					TLSCert: "cert",
+					TLSKey:  "key",
+				},
 			},
 		},
 	}
@@ -95,7 +93,7 @@ func TestValidate(t *testing.T) {
 	for _, test := range tests {
 		err := test.server.validate()
 		if err != nil && !test.expectErr {
-			t.Errorf("unexpected error encountered during server validation: got %s", err.Error())
+			t.Errorf("unexpected validation result: got error=%v wantErr=%v, err=%v", err != nil, test.expectErr, err)
 		}
 	}
 }
@@ -129,168 +127,166 @@ func TestGetLogFormatter(t *testing.T) {
 func TestServerConfigOpts(t *testing.T) {
 	outputStr := "got: %v, want: %v"
 
-	t.Run("WithDomains", func(t *testing.T) {
+	t.Run("Domains", func(t *testing.T) {
 		v := []string{"lemon"}
-		s, err := New(
-			WithDomains(v),
-		)
+		cfg := &Config{
+			Domains: v,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if !reflect.DeepEqual(s.domains, v) {
-			t.Errorf(outputStr, s.domains, v)
+		if !reflect.DeepEqual(s.Config.Domains, v) {
+			t.Errorf(outputStr, s.Config.Domains, v)
 		}
 	})
 
-	t.Run("WithMiddlwares", func(t *testing.T) {
+	t.Run("AddMiddlewares", func(t *testing.T) {
 		v := []func(http.Handler) http.Handler{
 			func(h http.Handler) http.Handler { return nil },
 		}
-		s, err := New(
-			WithMiddlewares(v...),
-		)
+		cfg := &Config{}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
+
+		s.middlewares = v
 
 		if len(s.middlewares) != len(v) {
 			t.Errorf(outputStr, len(s.middlewares), len(v))
 		}
 	})
 
-	t.Run("WithTLSCert", func(t *testing.T) {
+	t.Run("TLSCert", func(t *testing.T) {
 		v := "cert"
-		s, err := New(
-			WithTLSCert(v),
-			WithValidation(false),
-		)
+		cfg := &Config{
+			TLSCert:    v,
+			Validation: false,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.tlsCert != v {
-			t.Errorf(outputStr, s.tlsCert, v)
+		if s.Config.TLSCert != v {
+			t.Errorf(outputStr, s.Config.TLSCert, v)
 		}
 	})
 
-	t.Run("WithTLSKey", func(t *testing.T) {
+	t.Run("TLSKey", func(t *testing.T) {
 		v := "key"
-		s, err := New(
-			WithTLSKey(v),
-			WithValidation(false),
-		)
+		cfg := &Config{
+			TLSKey:     v,
+			Validation: false,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.tlsKey != v {
-			t.Errorf(outputStr, s.tlsKey, v)
+		if s.Config.TLSKey != v {
+			t.Errorf(outputStr, s.Config.TLSKey, v)
 		}
 	})
 
-	t.Run("WithTLSKey", func(t *testing.T) {
-		v := "key"
-		s, err := New(
-			WithTLSKey(v),
-			WithValidation(false),
-		)
-		if err != nil {
-			t.Errorf("received unexpected err: %s", err.Error())
-		}
+	// duplicate TLSKey test removed
 
-		if s.tlsKey != v {
-			t.Errorf(outputStr, s.tlsKey, v)
-		}
-	})
-
-	t.Run("WithPort", func(t *testing.T) {
+	t.Run("Port", func(t *testing.T) {
 		v := 3000
-		s, err := New(
-			WithPort(v),
-			WithValidation(false),
-		)
+		cfg := &Config{
+			Port:       v,
+			Validation: false,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.port != v {
-			t.Errorf(outputStr, s.port, v)
+		if s.Config.Port != v {
+			t.Errorf(outputStr, s.Config.Port, v)
 		}
 	})
 
-	t.Run("WithAutoTLS", func(t *testing.T) {
+	t.Run("AutoTLS", func(t *testing.T) {
 		v := true
-		s, err := New(
-			WithAutoTLS(v),
-			WithValidation(false),
-		)
+		cfg := &Config{
+			AutoTLS:    v,
+			Domains:    []string{"d"},
+			Validation: false,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.autoTLS != v {
-			t.Errorf(outputStr, s.autoTLS, v)
+		if s.Config.AutoTLS != v {
+			t.Errorf(outputStr, s.Config.AutoTLS, v)
 		}
 	})
 
-	t.Run("WithMetrics", func(t *testing.T) {
+	t.Run("Metrics", func(t *testing.T) {
 		v := true
-		s, err := New(
-			WithMetrics(v),
-			WithValidation(false),
-		)
+		cfg := &Config{
+			Metrics:    v,
+			Validation: false,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.metrics != v {
-			t.Errorf(outputStr, s.metrics, v)
+		if s.Config.Metrics != v {
+			t.Errorf(outputStr, s.Config.Metrics, v)
 		}
 	})
 
-	t.Run("WithLogFormat", func(t *testing.T) {
+	t.Run("LogFormat", func(t *testing.T) {
 		v := "JSON"
 		vlower := strings.ToLower(v)
-		s, err := New(
-			WithLogFormat(v),
-			WithValidation(false),
-		)
+		cfg := &Config{
+			LogFormat:  v,
+			Validation: false,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.logformat != vlower {
-			t.Errorf(outputStr, s.logformat, vlower)
+		if s.Config.LogFormat != vlower {
+			t.Errorf(outputStr, s.Config.LogFormat, vlower)
 		}
 	})
 
-	t.Run("WithLogLevel", func(t *testing.T) {
+	t.Run("LogLevel", func(t *testing.T) {
 		v := "DEBUG"
-		s, err := New(
-			WithLogLevel(v),
-			WithValidation(false),
-		)
+		cfg := &Config{
+			LogLevel:   v,
+			Validation: false,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.loglevel != v {
-			t.Errorf(outputStr, s.loglevel, v)
+		if s.Config.LogLevel != v {
+			t.Errorf(outputStr, s.Config.LogLevel, v)
 		}
 	})
 
 	t.Run("WithValidation", func(t *testing.T) {
 		v := true
-		s, err := New(
-			WithValidation(v),
-		)
+		cfg := &Config{
+			Validation: v,
+		}
+		s, err := New(cfg)
 		if err != nil {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.validation != v {
-			t.Errorf(outputStr, s.validation, v)
+		if s.Validation != v {
+			t.Errorf(outputStr, s.Validation, v)
 		}
 	})
 }

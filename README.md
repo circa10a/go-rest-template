@@ -94,7 +94,7 @@ Use "go-rest-template [command] --help" for more information about a command.
 ## Server
 
 ```console
-$ go run . server -h
+$ go run . server --help
 
 Start the go-rest-template server
 
@@ -102,15 +102,15 @@ Usage:
   go-rest-template server [flags]
 
 Flags:
-  -a, --auto-tls                 Enable automatic TLS via Let's Encrypt. Requires port 80/443 open to the internet for domain validation.
-  -d, --domains stringArray      Domains to issue certificate for. Must be used with --auto-tls.
+  -a, --auto-tls                 Enable automatic TLS via Let's Encrypt. Requires port 80/443 open to the internet for domain validation. (env: APP_AUTO_TLS)
+  -d, --domains stringArray      Domains to issue certificate for. Must be used with --auto-tls. (env: APP_DOMAINS)
   -h, --help                     help for server
-  -f, --log-format string        Server logging format. Supported values are 'text' and 'json'. (default "text")
-  -l, --log-level string         Server logging level. (default "info")
-  -m, --metrics                  Enable Prometheus metrics intrumentation.
-  -p, --port int                 Port to listen on. Cannot be used in conjunction with --auto-tls since that will require listening on 80 and 443. (default 8080)
-      --tls-certificate string   Path to custom TLS certificate. Cannot be used with --auto-tls.
-      --tls-key string           Path to custom TLS key. Cannot be used with --auto-tls.
+  -f, --log-format string        Server logging format. Supported values are 'text' and 'json'. (env: APP_LOG_FORMAT) (default "text")
+  -l, --log-level string         Server logging level. (env: APP_LOG_LEVEL) (default "info")
+  -m, --metrics                  Enable Prometheus metrics intrumentation. (env: APP_METRICS)
+  -p, --port int                 Port to listen on. Cannot be used in conjunction with --auto-tls since that will require listening on 80 and 443. (env: APP_PORT) (default 8080)
+      --tls-certificate string   Path to custom TLS certificate. Cannot be used with --auto-tls. (env: APP_TLS_CERTIFICATE)
+      --tls-key string           Path to custom TLS key. Cannot be used with --auto-tls. (env: APP_TLS_KEY)
 ```
 
 ## Development
