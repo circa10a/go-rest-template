@@ -1,7 +1,24 @@
 PROJECT=$(shell grep module go.mod | rev | cut -d'/' -f1-2 | rev)
 NAMESPACE=$(shell echo $(PROJECT) | cut -d'/' -f1)
 REPO=$(shell echo $(PROJECT) | cut -d'/' -f2)
-GO_BUILD_FLAGS=-ldflags="-s -w"
+
+# Module path from go.mod used for ldflags -X assignments
+MODULE=$(shell go list -m)
+
+# If running in CI (GitHub Actions), use GITHUB_REF_NAME which contains the tag or branch name
+TAG=$(GITHUB_REF_NAME)
+
+# Default version, commit and date (can be overridden via env or in build targets)
+VERSION ?= dev
+COMMIT ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
+DATE   ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
+
+ifneq ($(TAG),)
+VERSION=$(TAG)
+endif
+
+# GO_BUILD_FLAGS injects build-time version info into the binary.
+GO_BUILD_FLAGS=-ldflags="-s -w -X '$(MODULE)/cmd.version=$(VERSION)' -X '$(MODULE)/cmd.commit=$(COMMIT)' -X '$(MODULE)/cmd.date=$(DATE)'"
 
 build:
 	@go build $(GO_BUILD_FLAGS) .

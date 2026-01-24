@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -11,11 +12,25 @@ var (
 	project      = "go-rest-template"
 	envVarPrefix = "APP"
 
+	// Set at build time with -ldflags
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+
 	rootCmd = &cobra.Command{
-		Use:   project,
-		Short: "A template project for Go REST API's",
+		Use:     project,
+		Short:   "A template project for Go REST API's",
+		Version: version,
 	}
 )
+
+var versionCmd = &cobra.Command{
+	Use:   "version",
+	Short: "Print the version information",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("%s %s (commit: %s, built: %s)\n", project, version, commit, date)
+	},
+}
 
 // define config opts to be used by cobra + viber for configuration
 type flagDef struct {
@@ -51,4 +66,8 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func init() {
+	rootCmd.AddCommand(versionCmd)
 }

@@ -7,7 +7,7 @@
 *.dll
 *.so
 *.dylib
-terraform-network-mirror
+go-rest-template
 
 # OS
 .DS_Store
