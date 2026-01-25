@@ -26,6 +26,9 @@ components:
   schemas:
     Error:
       type: object
+      required:
+        - code
+        - message
       properties:
         code:
           description: HTTP response code for convenience
