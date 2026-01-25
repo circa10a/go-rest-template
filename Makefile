@@ -35,7 +35,7 @@ docs:
 	  -w /tmp/project \
 	  -e NODE_NO_WARNINGS=1 \
 	  -e npm_config_loglevel=silent \
-	  node:23-alpine3.20 \
+	  node \
 	  npx @redocly/cli build-docs api/openapi.yaml --output internal/server/api.html
 
 k8s:
@@ -45,7 +45,7 @@ lint:
 	@docker run --rm \
 	  -v $$PWD:/tmp/project \
 	  -w /tmp/project \
-	  golangci/golangci-lint:v1.62.0-alpine \
+	  golangci/golangci-lint \
 	  golangci-lint run -v
 
 run:

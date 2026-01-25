@@ -53,11 +53,11 @@ func New(cfg *Config) (*Server, error) {
 		Config: *cfg,
 	}
 
-	if server.Config.LogLevel == "" {
-		server.Config.LogLevel = "info"
+	if server.LogLevel == "" {
+		server.LogLevel = "info"
 	}
 
-	server.Config.LogFormat = strings.ToLower(server.Config.LogFormat)
+	server.LogFormat = strings.ToLower(server.LogFormat)
 
 	router := chi.NewRouter()
 	server.mux = router
@@ -68,7 +68,7 @@ func New(cfg *Config) (*Server, error) {
 		return nil, err
 	}
 
-	logLevel, err := log.ParseLevel(server.Config.LogLevel)
+	logLevel, err := log.ParseLevel(server.LogLevel)
 	if err != nil {
 		return nil, err
 	}
@@ -77,13 +77,13 @@ func New(cfg *Config) (*Server, error) {
 		ReportCaller:    true,
 		ReportTimestamp: true,
 		TimeFormat:      time.RFC3339,
-		Formatter:       getLogFormatter(server.Config.LogFormat),
+		Formatter:       getLogFormatter(server.LogFormat),
 		Level:           logLevel,
 	})
 	server.logger = slog.New(logHandler)
 
 	// Features
-	if server.Config.Metrics {
+	if server.Metrics {
 		router.Handle("/metrics", promhttp.Handler())
 		server.middlewares = append(server.middlewares, middleware.Prometheus)
 	}
@@ -108,16 +108,16 @@ func (s *Server) Start() error {
 	log := s.logger.With("component", "server")
 
 	// Auto TLS will create listeners on port 80 and 443
-	if s.Config.AutoTLS {
+	if s.AutoTLS {
 		log.Info("Starting server on :80 and :443")
 		certmagic.DefaultACME.Agreed = true
 		certmagic.DefaultACME.Email = "user@oss.com"
-		return certmagic.HTTPS(s.Config.Domains, s.mux)
+		return certmagic.HTTPS(s.Domains, s.mux)
 	}
 
 	// If no auto TLS, use specified server port
 	// :{port}
-	addr := fmt.Sprintf(":%d", s.Config.Port)
+	addr := fmt.Sprintf(":%d", s.Port)
 	httpServer := &http.Server{
 		Addr:              addr,
 		Handler:           s.mux,
@@ -130,8 +130,8 @@ func (s *Server) Start() error {
 	log.Info("Starting server on " + addr)
 
 	// If custom cert and key provided, listen on specified server port via https
-	if s.Config.TLSCert != "" && s.Config.TLSKey != "" {
-		return httpServer.ListenAndServeTLS(s.Config.TLSCert, s.Config.TLSKey)
+	if s.TLSCert != "" && s.TLSKey != "" {
+		return httpServer.ListenAndServeTLS(s.TLSCert, s.TLSKey)
 	}
 
 	// No TLS requirements specified, listen on specified server port via http
@@ -140,33 +140,33 @@ func (s *Server) Start() error {
 
 // validate validates the server configuration and checks for conflicting parameters.
 func (s *Server) validate() error {
-	if !s.Config.Validation {
+	if !s.Validation {
 		return nil
 	}
 
-	if s.Config.AutoTLS && (s.Config.TLSCert != "" || s.Config.TLSKey != "") {
+	if s.AutoTLS && (s.TLSCert != "" || s.TLSKey != "") {
 		return errors.New("AutoTLS cannot be set along with TLS cert or TLS key")
 	}
 
-	if s.Config.AutoTLS && len(s.Config.Domains) == 0 {
+	if s.AutoTLS && len(s.Domains) == 0 {
 		return errors.New("AutoTLS requires a domain to also be configured")
 	}
 
-	if s.Config.TLSCert != "" && s.Config.TLSKey == "" {
+	if s.TLSCert != "" && s.TLSKey == "" {
 		return errors.New("TLS certificate is missing TLS key")
 	}
 
-	if s.Config.TLSCert == "" && s.Config.TLSKey != "" {
+	if s.TLSCert == "" && s.TLSKey != "" {
 		return errors.New("TLS key is missing TLS certificate")
 	}
 
 	validLogFormats := []string{"json", "text", ""}
-	if !slices.Contains(validLogFormats, s.Config.LogFormat) {
+	if !slices.Contains(validLogFormats, s.LogFormat) {
 		return fmt.Errorf("invalid log format. Valid log formats are: %v", validLogFormats)
 	}
 
-	if s.Config.LogLevel != "" {
-		_, err := log.ParseLevel(s.Config.LogLevel)
+	if s.LogLevel != "" {
+		_, err := log.ParseLevel(s.LogLevel)
 		if err != nil {
 			return err
 		}

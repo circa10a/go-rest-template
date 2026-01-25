@@ -137,8 +137,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if !reflect.DeepEqual(s.Config.Domains, v) {
-			t.Errorf(outputStr, s.Config.Domains, v)
+		if !reflect.DeepEqual(s.Domains, v) {
+			t.Errorf(outputStr, s.Domains, v)
 		}
 	})
 
@@ -170,8 +170,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.Config.TLSCert != v {
-			t.Errorf(outputStr, s.Config.TLSCert, v)
+		if s.TLSCert != v {
+			t.Errorf(outputStr, s.TLSCert, v)
 		}
 	})
 
@@ -186,8 +186,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.Config.TLSKey != v {
-			t.Errorf(outputStr, s.Config.TLSKey, v)
+		if s.TLSKey != v {
+			t.Errorf(outputStr, s.TLSKey, v)
 		}
 	})
 
@@ -204,8 +204,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.Config.Port != v {
-			t.Errorf(outputStr, s.Config.Port, v)
+		if s.Port != v {
+			t.Errorf(outputStr, s.Port, v)
 		}
 	})
 
@@ -221,8 +221,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.Config.AutoTLS != v {
-			t.Errorf(outputStr, s.Config.AutoTLS, v)
+		if s.AutoTLS != v {
+			t.Errorf(outputStr, s.AutoTLS, v)
 		}
 	})
 
@@ -237,8 +237,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.Config.Metrics != v {
-			t.Errorf(outputStr, s.Config.Metrics, v)
+		if s.Metrics != v {
+			t.Errorf(outputStr, s.Metrics, v)
 		}
 	})
 
@@ -254,8 +254,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.Config.LogFormat != vlower {
-			t.Errorf(outputStr, s.Config.LogFormat, vlower)
+		if s.LogFormat != vlower {
+			t.Errorf(outputStr, s.LogFormat, vlower)
 		}
 	})
 
@@ -270,8 +270,8 @@ func TestServerConfigOpts(t *testing.T) {
 			t.Errorf("received unexpected err: %s", err.Error())
 		}
 
-		if s.Config.LogLevel != v {
-			t.Errorf(outputStr, s.Config.LogLevel, v)
+		if s.LogLevel != v {
+			t.Errorf(outputStr, s.LogLevel, v)
 		}
 	})
 
