@@ -48,17 +48,16 @@ jobs:
         with:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push latest
-        id: docker_build_latest
+      - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ github.repository }}:latest
+          tags: |
+            ${{ github.repository }}:latest
+            ${{ github.repository }}:${{ needs.semver.outputs.tag }}
           platforms: ${{ env.PLATFORMS }}
-      - name: Build and push versioned
-        id: docker_build_versioned
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          tags: ${{ github.repository }}:${{ needs.semver.outputs.tag }}
-          platforms: ${{ env.PLATFORMS }}
+          # Pass the build args defined in the Dockerfile
+          build-args: |
+            VERSION=${{ needs.semver.outputs.tag }}
+            COMMIT=${{ github.sha }}
+            DATE=${{ github.event.head_commit.timestamp }}

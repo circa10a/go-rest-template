@@ -24,7 +24,11 @@ build:
 	@go build $(GO_BUILD_FLAGS) .
 
 docker:
-	@docker build -t $(PROJECT) .
+	@docker build \
+		--build-arg VERSION=$(VERSION) \
+		--build-arg COMMIT=$(COMMIT) \
+		--build-arg DATE=$(DATE) \
+		-t $(PROJECT) .
 
 docker-compose:
 	@docker compose -f ./deploy/docker-compose/docker-compose.yaml up

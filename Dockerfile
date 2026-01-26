@@ -1,4 +1,9 @@
 FROM golang:alpine
+
+ARG VERSION=dev
+ARG COMMIT=none
+ARG DATE=unknown
+
 WORKDIR /go/src/app
 COPY . .
 RUN --mount=type=cache,target=/go/pkg/mod/ \
@@ -14,7 +19,10 @@ ENV USER=go \
 RUN --mount=type=cache,target=/go/pkg/mod/ \
     --mount=type=cache,target="/root/.cache/go-build" \
     go mod tidy && \
-    go build -ldflags="-s -w" \
+    go build -ldflags="-s -w \
+    -X '${MODULE}/cmd.version=${VERSION}' \
+    -X '${MODULE}/cmd.commit=${COMMIT}' \
+    -X '${MODULE}/cmd.date=${DATE}'" \
     -o go-rest-template && \
     addgroup --gid "$GID" "$USER" && \
     adduser \
