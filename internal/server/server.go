@@ -26,12 +26,10 @@ var apiDocs []byte
 
 // Server is our web server that runs the network mirror.
 type Server struct {
-	// Embed configuration used to build the server.
-	Config
-
 	mux         http.Handler
 	logger      *slog.Logger
 	middlewares []func(http.Handler) http.Handler
+	Config
 }
 
 // Config holds configuration for creating a Server.
