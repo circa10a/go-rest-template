@@ -36,14 +36,14 @@ type Server struct {
 
 // Config holds configuration for creating a Server.
 type Config struct {
-	Port       int
-	AutoTLS    bool
-	Domains    []string
 	TLSCert    string
 	TLSKey     string
-	Metrics    bool
 	LogFormat  string
 	LogLevel   string
+	Domains    []string
+	Port       int
+	AutoTLS    bool
+	Metrics    bool
 	Validation bool
 }
 
