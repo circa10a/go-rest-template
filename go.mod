@@ -4,7 +4,7 @@ go 1.24.2
 
 require (
 	github.com/caddyserver/certmagic v0.25.2
-	github.com/charmbracelet/log v0.4.2
+	github.com/charmbracelet/log v1.0.0
 	github.com/go-chi/chi/v5 v5.2.5
 	github.com/prometheus/client_golang v1.23.2
 	github.com/slok/go-http-metrics v0.13.0
