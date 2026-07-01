@@ -3,7 +3,7 @@ module github.com/circa10a/go-rest-template
 go 1.25.0
 
 require (
-	github.com/caddyserver/certmagic v0.25.3
+	github.com/caddyserver/certmagic v0.25.4
 	github.com/charmbracelet/log v0.4.2
 	github.com/go-chi/chi/v5 v5.3.0
 	github.com/prometheus/client_golang v1.23.2
