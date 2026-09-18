@@ -8,6 +8,9 @@ on:
 permissions:
   actions: write
 
+env:
+  GOTOOLCHAIN: auto
+
 jobs:
   lint:
     runs-on: ubuntu-latest
