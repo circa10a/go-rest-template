@@ -15,6 +15,9 @@ jobs:
       - uses: actions/checkout@v6
       - name: Install Go
         uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          check-latest: true
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v9
       - uses: dominikh/staticcheck-action@v1
@@ -26,6 +29,9 @@ jobs:
       - uses: actions/checkout@v6
       - name: Install Go
         uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          check-latest: true
       - name: Run tests
         run: go test -v ./...
   container-image-scan:
@@ -61,6 +67,9 @@ jobs:
       - uses: actions/checkout@v6
       - name: Install Go
         uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          check-latest: true
       - name: Run Gosec Security Scanner
         uses: securego/gosec@v2.25.0
         with:
